@@ -965,13 +965,13 @@
 
                     let reb = parseInt(parts[7]) || 0;
                     let ast = parseInt(parts[8]) || 0;
-                    let to = parseInt(parts[9]) || 0;       // Column 9: TO
-                    let stl = parseInt(parts[10]) || 0;     // Column 10: STL
-                    let blk = parseInt(parts[11]) || 0;     // Column 11: BLK
-                    let oreb = parseInt(parts[12]) || 0;    // Column 12: OREB
-                    let dreb = parseInt(parts[13]) || 0;    // Column 13: DREB
-                    let pf = parseInt(parts[14]) || 2;      // Column 14: PF
-                    let plusMinus = parts[15] || "+0";      // Column 15: +/-
+                    let to = parseInt(parts[9]) || 0;       // Index 9: TO
+                    let stl = parseInt(parts[10]) || 0;     // Index 10: STL
+                    let blk = parseInt(parts[11]) || 0;     // Index 11: BLK
+                    let oreb = parseInt(parts[12]) || 0;    // Index 12: OREB
+                    let dreb = parseInt(parts[13]) || 0;    // Index 13: DREB
+                    let pf = parseInt(parts[14]) || 2;      // Index 14: PF
+                    let plusMinus = parts[15] || "+0";      // Index 15: +/-
 
                     let playerId = targetTeam.toLowerCase() + "_" + name.toLowerCase().replace(/[^a-z0-9]/g, '_') + "_" + no;
                     
