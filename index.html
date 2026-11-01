@@ -238,7 +238,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-950/80 border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400">
+                            <tr id="player-table-header" class="bg-slate-950/80 border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400">
                                 <th class="py-3 px-4 font-bold">Player</th>
                                 <th class="py-3 px-4 font-bold">Pos</th>
                                 <th class="py-3 px-4 font-bold text-center">GP</th>
@@ -247,7 +247,7 @@
                                 <th class="py-3 px-4 font-bold text-center">APG</th>
                                 <th class="py-3 px-4 font-bold text-center">BPG</th>
                                 <th class="py-3 px-4 font-bold text-center">SPG</th>
-                                <th class="py-3 px-4 font-bold text-center">ACTION</th>
+                                <!-- Dynamically injected Action header if isAdmin -->
                             </tr>
                         </thead>
                         <tbody id="player-table-tbody" class="divide-y divide-slate-800/60 text-xs sm:text-sm"></tbody>
@@ -1197,10 +1197,9 @@
 
         function getPlayerSurname(fullName) {
             if (!fullName) return "";
-            // Remove common suffixes and any trailing punctuation/whitespace
+            // Remove common suffixes and any trailing punctuation/whitespace correctly
             let cleaned = fullName.replace(/\b(Jr\.?|Sr\.?|I{1,3}|IV|V|VI{0,3})\b\.?/gi, "").trim();
             let parts = cleaned.split(/\s+/);
-            // Return the last remaining part as the surname
             return parts.length > 0 ? parts[parts.length - 1].toLowerCase() : "";
         }
 
@@ -1218,7 +1217,7 @@
             let rebLeader = [...filteredPlayers].sort((a,b) => (b.rpg || 0) - (a.rpg || 0))[0] || { name: 'None', rpg: 0, pos: 'F' };
             let astLeader = [...filteredPlayers].sort((a,b) => (b.apg || 0) - (a.apg || 0))[0] || { name: 'None', apg: 0, pos: 'G' };
             let stlLeader = [...filteredPlayers].sort((a,b) => (b.spg || 0) - (a.spg || 0))[0] || { name: 'None', spg: 0, pos: 'G' };
-            let blkLeader = [...filteredPlayers].sort((a,b) => (b.bpg || 0) - (b.bpg || 0))[0] || { name: 'None', bpg: 0, pos: 'C' };
+            let blkLeader = [...filteredPlayers].sort((a,b) => (b.bpg || 0) - (a.bpg || 0))[0] || { name: 'None', bpg: 0, pos: 'C' };
 
             const makeCard = (title, player, valKey, valColor) => `
                 <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between space-y-3">
@@ -1244,9 +1243,10 @@
             `;
         }
 
-       function renderPlayerTable() {
+        function renderPlayerTable() {
             deduplicatePlayersDatabase();
             const tbody = document.getElementById("player-table-tbody");
+            const theadTr = document.getElementById("player-table-header");
             const filterTeamCode = document.getElementById("team-filter-select").value || "BOS";
             const filtered = playersDatabase.filter(p => p.team === filterTeamCode);
 
@@ -1261,16 +1261,24 @@
 
             renderTeamLeaders(filtered);
 
+            // Dynamically render table header so ACTION column only appears in Admin mode
+            theadTr.innerHTML = `
+                <th class="py-3 px-4 font-bold">Player</th>
+                <th class="py-3 px-4 font-bold">Pos</th>
+                <th class="py-3 px-4 font-bold text-center">GP</th>
+                <th class="py-3 px-4 font-bold text-center">PPG</th>
+                <th class="py-3 px-4 font-bold text-center">RPG</th>
+                <th class="py-3 px-4 font-bold text-center">APG</th>
+                <th class="py-3 px-4 font-bold text-center">BPG</th>
+                <th class="py-3 px-4 font-bold text-center">SPG</th>
+                ${isAdmin ? '<th class="py-3 px-4 font-bold text-center">ACTION</th>' : ''}
+            `;
+
             if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="py-6 text-center text-slate-500">No players found in ${teamObj.name}.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${isAdmin ? 9 : 8}" class="py-6 text-center text-slate-500">No players found in ${teamObj.name}.</td></tr>`;
                 return;
             }
 
-            // 1. FIRST, dynamically render the table header row above the player list if you want it conditional, 
-            // OR keep the <thead> fixed in your HTML and only target <tbody> here.
-            // (Note: Since your HTML already has <thead> defined with the column headers, you actually don't need to put <tr>/<th> inside the map loop at all!)
-
-            // 2. THEN map out only the player rows inside tbody:
             tbody.innerHTML = filtered.map(p => {
                 let actionButtons = '';
                 if (isAdmin) {
@@ -1287,11 +1295,8 @@
                             <button onclick="adminDeletePlayer('${p.id}')" class="px-2 py-1 text-xs font-semibold rounded bg-red-950 text-red-400 hover:bg-red-900 transition-all"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
                         `;
                     }
-                } else {
-                    actionButtons = `<span class="text-slate-500 text-xs italic">View Only</span>`;
                 }
 
-                // ONLY return the player data <tr> here:
                 return `
                     <tr class="hover:bg-slate-800/40 transition-all">
                         <td class="py-3 px-4 font-bold text-white">#${p.no} ${p.name}</td>
