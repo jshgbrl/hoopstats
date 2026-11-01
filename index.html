@@ -34,7 +34,7 @@
                     </div>
                     <div>
                         <span class="text-2xl font-black tracking-wider font-teko uppercase bg-gradient-to-r from-white via-slate-200 to-orange-400 bg-clip-text text-transparent">HoopStats</span>
-                        <span id="header-mode-label" class="text-xs uppercase tracking-widest text-slate-400 font-bold block -mt-1">Public View Mode</span>
+                        <span id="header-mode-label" class="text-xs uppercase tracking-widest text-slate-400 font-bold block -mt-1"> </span>
                     </div>
                 </div>
 
@@ -177,7 +177,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-black font-teko uppercase tracking-wide text-white" id="scoreboard-title">Game Scoreboard</h1>
-                    <p class="text-xs sm:text-sm text-slate-400">Click any game card to view pro box scores with automatic calculations.</p>
+                    <p class="text-xs sm:text-sm text-slate-400">Click any game card to view box scores. </p>
                 </div>
                 <button onclick="resetToToday()" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white transition-all">Today</button>
             </div>
@@ -190,7 +190,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-black font-teko uppercase tracking-wide text-white">2026-27 Conference Standings</h1>
-                    <p class="text-xs sm:text-sm text-slate-400">Official synchronized regular season standings (auto-generated from game scores).</p>
+                    <p class="text-xs sm:text-sm text-slate-400">Official synchronized regular season standings.</p>
                 </div>
                 <div class="flex bg-slate-900 border border-slate-800 rounded-xl p-1 self-start">
                     <button onclick="switchConference('EAST')" id="conf-east" class="px-4 py-1.5 text-xs font-bold rounded-lg bg-orange-600 text-white transition-all">Eastern Conference</button>
@@ -282,8 +282,8 @@
             <!-- Compact Modal Sub-Tabs -->
             <div id="modal-tabs-container" class="border-b border-slate-800 bg-slate-950/80 px-6 flex space-x-6 shrink-0">
                 <button onclick="switchModalTab('summary')" id="modal-tab-summary" class="py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-orange-500 text-orange-400 transition-all">Game Summary</button>
-                <button onclick="switchModalTab('away')" id="modal-tab-away" class="py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-all">Away Roster</button>
-                <button onclick="switchModalTab('home')" id="modal-tab-home" class="py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-all">Home Roster</button>
+                <button onclick="switchModalTab('away')" id="modal-tab-away" class="py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-all"> </button>
+                <button onclick="switchModalTab('home')" id="modal-tab-home" class="py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-all"> </button>
             </div>
 
             <div class="p-4 sm:p-6 overflow-y-auto space-y-6 flex-grow" id="modal-body-content"></div>
@@ -1127,7 +1127,7 @@
                         </div>
                         <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
                             <span onclick="openBoxScore('${g.id}')" class="text-orange-400 font-semibold group-hover:underline flex items-center cursor-pointer">
-                                <i class="fa-solid fa-chart-pie mr-1.5"></i>View Pro Box Score
+                                <i class="fa-solid fa-chart-pie mr-1.5"></i>View Box Score
                             </span>
                             ${isAdmin ? `
                                 <div class="flex space-x-1.5">
