@@ -1244,7 +1244,7 @@
             `;
         }
 
-        function renderPlayerTable() {
+       function renderPlayerTable() {
             deduplicatePlayersDatabase();
             const tbody = document.getElementById("player-table-tbody");
             const filterTeamCode = document.getElementById("team-filter-select").value || "BOS";
@@ -1266,6 +1266,11 @@
                 return;
             }
 
+            // 1. FIRST, dynamically render the table header row above the player list if you want it conditional, 
+            // OR keep the <thead> fixed in your HTML and only target <tbody> here.
+            // (Note: Since your HTML already has <thead> defined with the column headers, you actually don't need to put <tr>/<th> inside the map loop at all!)
+
+            // 2. THEN map out only the player rows inside tbody:
             tbody.innerHTML = filtered.map(p => {
                 let actionButtons = '';
                 if (isAdmin) {
@@ -1286,6 +1291,7 @@
                     actionButtons = `<span class="text-slate-500 text-xs italic">View Only</span>`;
                 }
 
+                // ONLY return the player data <tr> here:
                 return `
                     <tr class="hover:bg-slate-800/40 transition-all">
                         <td class="py-3 px-4 font-bold text-white">#${p.no} ${p.name}</td>
@@ -1296,7 +1302,7 @@
                         <td class="py-3 px-4 text-center text-slate-300">${p.apg || 0.0}</td>
                         <td class="py-3 px-4 text-center text-slate-300">${p.bpg || 0.0}</td>
                         <td class="py-3 px-4 text-center text-slate-300">${p.spg || 0.0}</td>
-                        <td class="py-3 px-4 text-center space-x-1 whitespace-nowrap">${actionButtons}</td>
+                        ${isAdmin ? `<td class="py-3 px-4 text-center space-x-1 whitespace-nowrap">${actionButtons}</td>` : ''}
                     </tr>
                 `;
             }).join('');
