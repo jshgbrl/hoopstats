@@ -1197,9 +1197,11 @@
 
         function getPlayerSurname(fullName) {
             if (!fullName) return "";
-            let cleaned = fullName.replace(/\b(Jr\.?|Sr\.?|II|III|IV|V)\b/gi, "").trim();
+            // Remove common suffixes and any trailing punctuation/whitespace
+            let cleaned = fullName.replace(/\b(Jr\.?|Sr\.?|I{1,3}|IV|V|VI{0,3})\b\.?/gi, "").trim();
             let parts = cleaned.split(/\s+/);
-            return parts[parts.length - 1].toLowerCase();
+            // Return the last remaining part as the surname
+            return parts.length > 0 ? parts[parts.length - 1].toLowerCase() : "";
         }
 
         function renderTeamLeaders(filteredPlayers) {
